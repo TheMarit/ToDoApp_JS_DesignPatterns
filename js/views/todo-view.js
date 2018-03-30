@@ -53,7 +53,7 @@ var app = app || {};
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('completed', this.model.get('completed'));
 			this.$el.toggleClass('priority', this.model.get('priority'));
-			// this.toggleVisible();
+			this.toggleVisible();
 			this.$input = this.$('.edit');
 			return this;
 		},
@@ -63,9 +63,14 @@ var app = app || {};
 		},
 
 		isHidden: function () {
+			if(app.TodoFilter === "priority"){
+				return !this.model.get('priority') 
+			}
 			return this.model.get('completed') ?
 				app.TodoFilter === 'active' :
 				app.TodoFilter === 'completed';
+			
+			
 		},
 
 		// Toggle the `"completed"` state of the model.

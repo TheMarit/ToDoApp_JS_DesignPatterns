@@ -37,6 +37,7 @@ var app = app || {};
 			this.listenTo(app.todos, 'add', this.addOne);
 			this.listenTo(app.todos, 'reset', this.addAll);
 			this.listenTo(app.todos, 'change:completed', this.filterOne);
+			this.listenTo(app.todos, 'change:priority', this.filterOne);
 			this.listenTo(app.todos, 'filter', this.filterAll);
 			this.listenTo(app.todos, 'all', this.render);
 
@@ -51,6 +52,7 @@ var app = app || {};
 		render: function () {
 			var completed = app.todos.completed().length;
 			var remaining = app.todos.remaining().length;
+			var priority = app.todos.priority().length;
 
 			if (app.todos.length) {
 				this.$main.show();
@@ -58,7 +60,8 @@ var app = app || {};
 
 				this.$footer.html(this.statsTemplate({
 					completed: completed,
-					remaining: remaining
+					remaining: remaining,
+					priority: priority
 				}));
 
 				this.$('#filters li a')
@@ -99,7 +102,8 @@ var app = app || {};
 			return {
 				title: this.$input.val().trim(),
 				order: app.todos.nextOrder(),
-				completed: false
+				completed: false,
+				priority: false
 			};
 		},
 
